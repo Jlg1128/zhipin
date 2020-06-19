@@ -18,6 +18,22 @@ export default defineConfig({
       target: 'http://127.0.0.1:4000',
       changeOrigin: true,
     },
+    '/user': {
+      target: 'http://127.0.0.1:4000',
+      changeOrigin: true,
+    },
+    '/list': {
+      target: 'http://127.0.0.1:4000',
+      changeOrigin: true,
+    },
+    '/msglist': {
+      target: 'http://127.0.0.1:4000',
+      changeOrigin: true,
+    },
+    '/readMsg': {
+      target: 'http://127.0.0.1:4000',
+      changeOrigin: true,
+    },
   },
   theme: {
     '@primary-color': '#30b767',

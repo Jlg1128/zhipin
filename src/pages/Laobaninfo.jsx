@@ -4,7 +4,7 @@ import { Button, NavBar, InputItem, TextareaItem } from 'antd-mobile';
 import HeadSelector from '../components/head-selector/head-selector';
 import { connect, history } from 'umi';
 import Cookies from 'js-cookie';
-import user from '../models/user';
+import { getRedirectTo } from '../utils/index';
 
 class Laobaninfo extends Component {
   constructor(props) {
@@ -16,6 +16,15 @@ class Laobaninfo extends Component {
       company: '', //company
       salary: '', //工资
     };
+  }
+  componentDidMount() {
+    const userid = Cookies.get('userid');
+    const { _id } = this.props.user;
+    if (userid && !_id) {
+      this.props.dispatch({
+        type: 'user/getUserAsync',
+      });
+    }
   }
   handelChange = (name, val) => {
     this.setState({
@@ -35,11 +44,19 @@ class Laobaninfo extends Component {
   };
   render() {
     const userid = Cookies.get('userid');
-    console.log(userid);
-    const { header, type, username } = this.props.user;
+    const { header, type } = this.props.user;
+    if (!userid) {
+      history.push('/login');
+    } else {
+      let path = this.props.history.location.pathname;
+      if (path == '/') {
+        path = getRedirectTo(header, type);
+        history.push(path);
+      }
+    }
     if (header) {
-      const path = type == 'laoban' ? '/laoban' : '/dashen';
-      history.push(path);
+      const path2 = type == 'laoban' ? '/clients/laoban' : '/clients/dashen';
+      history.push(path2);
     }
     return (
       <div>

@@ -13,7 +13,7 @@ export default class Headselector extends Component {
     for (let i = 0; i < 20; i++) {
       this.headlist.push({
         text: '头像' + (i + 1),
-        icon: require(`./images/head/头像${i + 1}.jpg`),
+        icon: require(`../../assets/images/head/头像${i + 1}.jpg`),
       });
     }
   }

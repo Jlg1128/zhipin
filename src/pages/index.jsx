@@ -3,17 +3,11 @@ import styles from './index.less';
 import { Button } from 'antd-mobile';
 import { connect, history } from 'umi';
 
-class Main extends Component {
+export default class Main extends Component {
+  componentDidMount() {
+    history.push('/login');
+  }
   render() {
-    return (
-      <div>
-        <Button>登录</Button>
-      </div>
-    );
+    return <div></div>;
   }
 }
-
-function mapStateToprops(state) {
-  return { user: state.user.user };
-}
-export default connect(mapStateToprops)(Main);

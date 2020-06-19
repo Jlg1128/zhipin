@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import { Button, NavBar, InputItem, TextareaItem } from 'antd-mobile';
 import HeadSelector from '../components/head-selector/head-selector';
-import { connect, history, Link, Redirect } from 'umi';
+import { connect, history } from 'umi';
+import Cookies from 'js-cookie';
+
+import { getRedirectTo } from '../utils/index';
 
 class Dasheninfo extends Component {
   constructor(props) {
@@ -12,6 +15,15 @@ class Dasheninfo extends Component {
       post: '', //职位
       info: '', //个人介绍
     };
+  }
+  componentDidMount() {
+    const userid = Cookies.get('userid');
+    const { _id } = this.props.user;
+    if (userid && !_id) {
+      this.props.dispatch({
+        type: 'user/getUserAsync',
+      });
+    }
   }
   handelChange = (name, val) => {
     this.setState({
@@ -29,13 +41,21 @@ class Dasheninfo extends Component {
   };
 
   render() {
-    const { header, type, username } = this.props.user;
-    if (!username) {
-      history.push('/');
+    const { header, type } = this.props.user;
+    const userid = Cookies.get('userid');
+    if (!userid) {
+      history.push('/login');
+    } else {
+      let path = this.props.history.location.pathname;
+      if (path == '/') {
+        path = getRedirectTo(type, header);
+        history.push(path);
+      } else {
+      }
     }
     if (header) {
-      const path = type == 'laoban' ? '/laoban' : '/dashen';
-      history.push(path);
+      const path2 = type == 'laoban' ? '/clients/laoban' : '/clients/dashen';
+      history.push(path2);
     }
     return (
       <div>
@@ -48,7 +68,7 @@ class Dasheninfo extends Component {
           求职岗位
         </InputItem>
         <TextareaItem
-          placeholder="请输入个人介绍"
+          placeholder="个人介绍"
           rows={3}
           onChange={val => this.handelChange('info', val)}
         >

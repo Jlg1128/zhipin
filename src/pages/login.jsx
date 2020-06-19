@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getRedirectTo } from '../utils/index';
 import {
   Button,
   NavBar,
@@ -11,7 +12,9 @@ import {
 import Logo from '../components/logo/logo';
 import { history } from 'umi';
 import { connect } from 'dva';
+import Cookies from 'js-cookie';
 const ListItem = List.Item;
+
 class Login extends Component {
   state = {
     username: '',
@@ -31,9 +34,11 @@ class Login extends Component {
     history.push('/register');
   };
   render() {
-    const { redirect } = this.props.user;
-
-    redirect == '' ? null : history.push(redirect);
+    const { msg, header, type } = this.props.user;
+    if (type != '') {
+      let path = getRedirectTo(type, header);
+      history.push(path);
+    }
     return (
       <div>
         <NavBar>硅&nbsp;谷&nbsp;直&nbsp;聘</NavBar>

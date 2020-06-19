@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getRedirectTo } from '../utils/index';
 import {
   Button,
   NavBar,
@@ -52,19 +53,14 @@ class Register extends Component {
   toLogin = () => {
     history.push('/login');
   };
-  isRedirect = () => {
-    const { redirect } = this.props.user;
-    if (redirect == '') {
-      return null;
-    } else {
-      history.push(redirect);
-    }
-  };
   render() {
     const { type } = this.state;
-    const { msg, redirect } = this.props.user;
-    this.isRedirect();
-
+    const { msg, header } = this.props.user;
+    const type2 = this.props.user.type;
+    if (type != '') {
+      let path = getRedirectTo(type2, header);
+      history.push(path);
+    }
     return (
       <div>
         <NavBar>硅&nbsp;谷&nbsp;直&nbsp;聘</NavBar>
