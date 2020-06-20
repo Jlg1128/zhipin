@@ -1,11 +1,6 @@
-####### umi project
-
-
 ```bash
-$ yarn
+#umi
 ```
-
-Start the dev server,
 
 ```bash
 $ yarn start
