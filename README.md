@@ -1,1 +1,1 @@
-## 一个前端用Umi后端nodejs用户招聘的手机App
+## 一个前端用Umi后端nodejs用于企业招聘或者找工作的的手机App
