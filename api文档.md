@@ -6,7 +6,7 @@
 ### 1.注册
 **请求URL:**
 ```
-localhost:8000/register
+localhost:8000/doregister
 ```
 **请求方式**
 ```
@@ -44,7 +44,7 @@ localhost:8000/register
 ### 2.登录
 **请求URL**
 ```
-localhost:8000/login
+localhost:8000/doLogin
 ```
 **请求类型**
 ```
@@ -78,7 +78,7 @@ POST
 ### 3.更新用户信息
 **请求URL**
 ```
-localhost:3005/update
+localhost:8000/update
 ```
 **请求类型**
 ```
@@ -135,7 +135,7 @@ GET
 ### 5.获取用户列表
 **请求URL**
 ```
-localhost:8000/userlist
+localhost:8000/list
 ```
 **请求类型**
 ```
@@ -226,7 +226,7 @@ GET
 ### 7.修改指定消息为已读
 **请求URL**
 ```
-localhost:8000/readmsg
+localhost:8000/readMsg
 ```
 **请求类型**
 ```
