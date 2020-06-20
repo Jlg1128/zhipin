@@ -10,7 +10,7 @@ class Chat extends Component{
        content:'',
        isShow:false
    } 
-handel = ()=>{s
+handel = ()=>{
 
     const from = this.props.user._id
     const to = this.props.match.params.userid
