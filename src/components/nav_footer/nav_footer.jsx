@@ -13,6 +13,7 @@ export default class NavFooter extends Component {
         <TabBar>
           {Navlist.map((nav, index) => (
             <Item
+              key={index}
               badge={nav.path == '/clients/message' ? unReadCount : 0}
               title={nav.title}
               icon={{ uri: require(`../../assets/foot_icon/${nav.icon}.png`) }}
