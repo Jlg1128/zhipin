@@ -74,7 +74,7 @@ export default {
       if (result.code === 1) {
         yield put({
           type: 'getUser',
-          payload: { msg: result.msg, msg: '用户名已存在', code: 1 },
+          payload: { msg: '用户名已存在', code: 1 },
         });
       } else {
         yield put({

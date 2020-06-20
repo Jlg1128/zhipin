@@ -57,7 +57,8 @@ class Register extends Component {
     const { type } = this.state;
     const { msg, header } = this.props.user;
     const type2 = this.props.user.type;
-    if (type != '') {
+
+    if (type2 != '') {
       let path = getRedirectTo(type2, header);
       history.push(path);
     }

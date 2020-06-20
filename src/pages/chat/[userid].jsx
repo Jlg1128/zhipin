@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import {connect} from 'umi'
 import {NavBar,List,InputItem,Grid,Icon} from 'antd-mobile'
 import '../../assets/css/index.css'
+import Cookies from 'js-cookie';
+
 const Item = List.Item
 class Chat extends Component{
    state=  {
        content:'',
        isShow:false
    } 
-handel = ()=>{
+handel = ()=>{s
 
     const from = this.props.user._id
     const to = this.props.match.params.userid
@@ -21,6 +23,7 @@ handel = ()=>{
 }
 componentDidMount(){
 
+    const targetId = this.props.match.params.userid
     window.scrollTo(0,document.body.scrollHeight)
    const initEmoji = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂',
                      '🙃','😉','😌','😍','😘','😗','😙','😚','😋','😛','😝',
@@ -35,10 +38,14 @@ componentDidMount(){
     this.props.dispatch({
         type:'user/getUserAsync',    
     })
-   }
+   }     
+   this.props.dispatch({
+        type:'message/doReadMessages',
+        payload:targetId
+   })
 }
 componentDidUpdate(){
-
+    //输入框输入信息后自动滑动到底部
     window.scrollTo(0,document.body.scrollHeight)
 }
     toggleShow = ()=>{
@@ -53,6 +60,7 @@ componentDidUpdate(){
         }
     }
     render(){
+
         const {user} = this.props
         const {users,chatMsgs} = this.props.chat
 
@@ -71,7 +79,7 @@ componentDidUpdate(){
             <div id='chat_page'>
                 <NavBar className='sticky-header' icon ={<Icon type='left' />} onLeftClick={()=>this.props.history.goBack()} >{users[targetId].username}</NavBar>
 
-                <List style={{marginBottom:50,marginTop:50}}>
+                <List style={{marginBottom:50,paddingTop:50}}>
                     {msgs.map(msg =>{
                         if(targetId===msg.from){  //对方发给我的
                            return (<Item
@@ -82,6 +90,7 @@ componentDidUpdate(){
                         }else{     //我发给对方的
               
                            return (<Item
+                            key= {msg._id}
                             className="chat-me"
                             
                             >

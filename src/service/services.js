@@ -81,3 +81,15 @@ export const reqReadMsg = payload => {
     })
     .catch(err => {});
 };
+
+export const doReadMsgs = payload => {
+  console.log(payload);
+  return request('/readMsg', {
+    method: 'post',
+    params: payload,
+  })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {});
+};

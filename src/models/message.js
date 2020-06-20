@@ -1,4 +1,4 @@
-import { reqChatMsg, reqReadMsg } from '../service/services';
+import { reqChatMsg, reqReadMsg, doReadMsgs } from '../service/services';
 import io from 'socket.io-client';
 import { GetMsgList, InitIO } from '../utils/index';
 import user from './user';
@@ -16,6 +16,13 @@ export default {
       const newstate = deepClone(state);
       newstate.users = action.payload.users;
       newstate.chatMsgs = action.payload.chatMsgs;
+      const chatMsgs = action.payload.chatMsgs;
+      const userid = Cookies.get('userid');
+      newstate.unReadCount = chatMsgs.reduce(
+        (preTotal, msg) => preTotal + (!msg.read && msg.to == userid ? 1 : 0),
+        0,
+      );
+
       return newstate;
     },
     receiveMsg(state, action) {
@@ -69,6 +76,9 @@ export default {
         type: 'getUpdataMsg',
         payload: result,
       });
+    },
+    *doReadMessages({ payload }, { call, put }) {
+      yield call(doReadMsgs, payload);
     },
   },
 };

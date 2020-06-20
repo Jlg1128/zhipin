@@ -5,6 +5,7 @@ import { connect, history } from 'umi';
 import Cookies from 'js-cookie';
 import './_layout.less';
 import '../../test/socketio_test';
+import message from './message';
 
 class Main extends Component {
   state = {
@@ -72,6 +73,7 @@ class Main extends Component {
       <Navfooter
         Navlist={Navlist.filter(nav => !nav.hide)}
         pathname={pathname}
+        unReadCount={this.props.unReadCount}
       />
     ) : null;
     return (
@@ -84,6 +86,6 @@ class Main extends Component {
   }
 }
 function mapStateToProps(state) {
-  return { user: state.user.user };
+  return { user: state.user.user, unReadCount: state.message.unReadCount };
 }
 export default connect(mapStateToProps)(Main);

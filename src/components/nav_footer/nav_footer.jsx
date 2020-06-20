@@ -6,13 +6,14 @@ import './index.less';
 const Item = TabBar.Item;
 export default class NavFooter extends Component {
   render() {
-    const { Navlist, pathname } = this.props;
+    const { Navlist, pathname, unReadCount } = this.props;
 
     return (
       <div>
         <TabBar>
           {Navlist.map((nav, index) => (
             <Item
+              badge={nav.path == '/clients/message' ? unReadCount : 0}
               title={nav.title}
               icon={{ uri: require(`../../assets/foot_icon/${nav.icon}.png`) }}
               selectedIcon={{

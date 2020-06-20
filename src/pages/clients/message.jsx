@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
 import { List, Badge } from 'antd-mobile';
 import { connect, history } from 'umi';
-import Cookies from 'js-cookie';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
-function getLastMsg(chatMsgs) {
-  const lastMsgObjs = {};
-  chatMsgs.forEach(msg => {
-    const chatId = msg.chat_id;
-    let lastMsg = lastMsgObjs[chatId];
-    if (!lastMsg) {
-      lastMsgObjs[chatId] = msg;
+function getLastMsg(chatMsgs, userid) {
+  const lastMsgsobj = {};
+  chatMsgs.map(msg => {
+    const chatid = msg.chat_id;
+    let lastMsg = lastMsgsobj[chatid];
+    if (msg.to == userid && !msg.read) {
+      msg.unReadCount = 1;
     } else {
+      msg.unReadCount = 0;
+    }
+    if (!lastMsg) {
+      lastMsgsobj[chatid] = msg;
+    } else {
+      const unReadCount = lastMsg.unReadCount + msg.unReadCount;
       if (msg.create_time > lastMsg.create_time) {
-        lastMsgObjs[chatId] = msg;
+        lastMsgsobj[chatid] = msg;
       }
+      lastMsgsobj[chatid].unReadCount = unReadCount;
     }
   });
-  //得到所有LastMsgs的数组
-  const lastMsgs = Object.values(lastMsgObjs);
-  //对数组进行降序（按creat_time降序）
-  lastMsgs.sort(function(m1, m2) {
-    //如果<0,将M1放在前面
+
+  let lastMsgs = Object.values(lastMsgsobj);
+  lastMsgs.sort((m1, m2) => {
     return m2.create_time - m1.create_time;
   });
   return lastMsgs;
@@ -36,7 +40,7 @@ class Personal extends Component {
   render() {
     const { user } = this.props;
     const { users, chatMsgs } = this.props.chat;
-    const lastMsgs = getLastMsg(chatMsgs);
+    const lastMsgs = getLastMsg(chatMsgs, user._id);
     return (
       <List style={{ marginTop: 42, marginBottom: 42 }}>
         {lastMsgs.map(msg => {
@@ -46,7 +50,7 @@ class Personal extends Component {
             <Item
               onClick={() => history.push(`/chat/${TargetId}`)}
               key={msg._id}
-              extra={<Badge text={3}></Badge>}
+              extra={<Badge text={msg.unReadCount}></Badge>}
               thumb={
                 TargetUser
                   ? require(`../../assets/images/head/${TargetUser.header}.jpg`)
